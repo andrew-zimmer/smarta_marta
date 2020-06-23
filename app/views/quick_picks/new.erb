@@ -1,0 +1,18 @@
+<h1>Make a new quick pick</h1>
+<h2>based on current train information</h2>
+
+<form action='/quick_picks/new' method='post'>
+    <select name='station'>
+        <%@trains.collect{|train| train['STATION']}.uniq.sort.each do |station|%>
+            <option value='<%=station%>'> <%=station%></option>
+        <%end%>
+     </select>
+
+     <select name='directions'>
+        <%@trains.select{|train| train['STATION'] == params[:station]}.collect{|station| station['DIRECTION']}.uniq.each do |dir|%>
+            <option value='<%=dir%>'> <%=dir%></option>
+        <%end%>
+     </select>
+
+
+</form>

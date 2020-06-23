@@ -1,0 +1,3 @@
+class UserHistoryController < ApplicationController
+
+end

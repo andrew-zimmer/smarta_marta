@@ -1,0 +1,16 @@
+<h1>Quick Picks</h1>
+<h2>Sup, <%=@user.last_name%></h2>
+
+<%if @user.quick_picks == []%>
+    <h3>You don't have any quick picks</h3>
+<%else%>
+
+<%end%>
+
+<form method method='get' action='/quick_picks/new'>
+    <input type='submit' value='New Picks'>
+</form>
+
+<form method='get' action='/logout'>
+<input type='submit' value='Log Out'>
+</form>
