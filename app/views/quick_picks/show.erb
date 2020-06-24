@@ -1,19 +1,14 @@
-<h1> <%=@quick_pick.station_name%> </h1>
 
-<form method='get' action='/quick_picks/<%=@quick_pick.id%>/edit'>
-    <input type='submit' value='Refine'>
-</form>
-<form method='get' action='/quick_picks/<%=@quick_pick.id%>/delete'>
-    <input type='submit' value='Delete'>
-</form>
-<form method='get' action='/quick_picks'>
-    <input type='submit' value='View All'>
-</form>
-
+<%if @quick_pick.alias.nil?%>
+    <h1> <%=@quick_pick.station_name%> </h1>
+<%else%>
+    <h1><%=@quick_pick.alias%></h1>
+    <h2> <%=@quick_pick.station_name%> </h2>
+<%end%>
 
 <form>
-
 <%@trains.each do |station|%>
+
 <h2> Destination:<%=station['DESTINATION']%> </h2>
 <ul>
     <li> Waiting Time: <%=station['WAITING_TIME']%> </li>
@@ -22,4 +17,15 @@
     <li> Direction: <%=station['DIRECTION']%> </li>
 </ul><br/>
 <%end%>
+</form>
+
+<form method='get' action='/quick_picks/<%=@quick_pick.id%>/edit'>
+    <input type='submit' value='Edit'>
+</form>
+<form method='post' action='/quick_picks/<%=@quick_pick.id%>/delete'>
+    <input type='hidden' name='_method' value='delete'>
+    <input type='submit' value='Delete'>
+</form>
+<form method='get' action='/quick_picks'>
+    <input type='submit' value='View All'>
 </form>

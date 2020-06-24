@@ -2,6 +2,7 @@
 <h2>based on current train information</h2>
 
 <form action='/quick_picks/new' method='post'>
+    <input type="text" name='alias' placeholder='Pick a nickname for your quick pick'>
     <select name='station'>
         <%@trains.collect{|train| train['STATION']}.uniq.sort.each do |station|%>
             <option value='<%=station%>' name='<%=station%>'> <%=station%></option>

@@ -30,7 +30,7 @@ class UserController < ApplicationController
         end
     end
 
-    get '/logout' do
+    get '/users/logout' do
         session.clear
         redirect '/users/log_in'
     end

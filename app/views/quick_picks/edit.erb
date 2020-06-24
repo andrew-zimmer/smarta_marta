@@ -1,6 +1,12 @@
 <h1> Edit <%=@quick_pick.station_name%> Quick Pick</h1>
 
 <form action="/quick_picks/<%=@quick_pick.id%>" method='POST' >
+    <h3>Quick Pick Name:</h3>
+    <%if @quick_pick.alias.nil?%>
+        <input type="text" name='alias' placeholder='Pick a nickname for your quick pick'>
+    <%else%>
+        <input type="text" name='alias' value='<%=@quick_pick.alias%>' placeholder='Pick a nickname for your quick pick'>
+    <%end%>
     <input type='hidden' name='_method' value='patch'>
     <h3>Direction</h3>
     <select name='direction'>
@@ -19,4 +25,9 @@
     </select><br/>
 
     <input type='submit' value='Edit'>
+</form>
+
+<form method='post' action='/quick_picks/<%=@quick_pick.id%>/delete'>
+    <input type='hidden' name='_method' value='delete'>
+    <input type='submit' value='Delete'>
 </form>

@@ -1,18 +1,22 @@
-<h1>Quick Picks</h1>
-<h2>Sup, <%=@user.last_name%></h2>
+<h2>Quick Picks:</h2>
+
 
 <%if @user.quick_picks == []%>
     <h3>You don't have any quick picks</h3>
 <%else%>
     <% @user.quick_picks.each do |qp|%>
-        <h3> <a href="/quick_picks/<%=qp.id%>"><%=qp.station_name%></a> </h3>
+        <%if qp.alias.nil? || qp.alias == ''%>
+            <h2><a href="/quick_picks/<%=qp.id%>"><%=qp.station_name%></a></h2>
+        <%else%>
+            <h2><a href="/quick_picks/<%=qp.id%>"><%=qp.alias%></a></h2>
+            <h3>Station: <%=qp.station_name%> </h3>
+        <%end%>
+        <h4>Direction: <%=qp.direction.nil? ? 'Not Defined' : qp.direction%></h4>
+        <h4>Rail-Line: <%=qp.rail_line_name.nil? ? 'Not Defined' : qp.rail_line_name%></h4>
+        <br>
     <%end%>
 <%end%>
 
 <form method method='get' action='/quick_picks/new'>
     <input type='submit' value='New Picks'>
-</form>
-
-<form method='get' action='/logout'>
-<input type='submit' value='Log Out'>
 </form>

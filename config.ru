@@ -6,7 +6,7 @@ end
 
 use Rack::MethodOverride
 use UserController
-use UserHistoryController
+use UserChronicleController
 use QuickPickController
 
 

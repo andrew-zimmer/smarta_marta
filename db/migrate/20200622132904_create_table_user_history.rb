@@ -1,6 +1,6 @@
-class CreateTableUserHistory < ActiveRecord::Migration
+class CreateTableUserChronicles < ActiveRecord::Migration
   def change
-    create_table :user_histories do |t|
+    create_table :user_history do |t|
       t.datetime :date
       t.string :station_name
       t.string :direction

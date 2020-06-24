@@ -15,6 +15,22 @@
   </head>
   <body>
     <div class="wrapper">
+    <h1>Smart MARTA</h1>
+    <%if logged_in?%>
+      <h4>Hello, <%=current_user.first_name%></h4>
+      <form method='get' action='/users/logout'>
+        <input type='submit' value='Log Out'>
+      </form>
+    <%else%>
+      <h4>Your not signed in!</h4>
+      <form method='get' action='users/log_in'>
+        <input type='submit' value='Log In'>
+      </form>
+
+      <form method='get' action='users/sign_up'>
+       <input type='submit' value="Sign Up">
+      </form>
+    <%end%>
 
         <%= yield %>
 

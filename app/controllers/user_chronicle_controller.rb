@@ -1,0 +1,3 @@
+class UserChronicleController < ApplicationController
+
+end
