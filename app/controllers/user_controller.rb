@@ -20,7 +20,6 @@ class UserController < ApplicationController
 
     post '/users/sign_up' do
         user = User.new(params) #create our user
-        binding.pry
         if user.save
             session[:user_id] = user.id    # log them in
 

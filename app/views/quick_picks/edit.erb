@@ -1,0 +1,22 @@
+<h1> Edit <%=@quick_pick.station_name%> Quick Pick</h1>
+
+<form action="/quick_picks/<%=@quick_pick.id%>" method='POST' >
+    <input type='hidden' name='_method' value='patch'>
+    <h3>Direction</h3>
+    <select name='direction'>
+        <option value='<%=nil%>' <%='selected' if @quick_pick.direction == nil %>>No Direction</option>
+        <%@trains.select{|train| train['STATION'] == @quick_pick.station_name}.collect{|train| train['DIRECTION']}.uniq.sort.each do |dir|%>
+        <option value='<%=dir%>' <%='selected' if @quick_pick.direction == dir %>> <%=dir%> </option>
+        <%end%>
+    </select><br/>
+
+    <h3>Rail-Line</h3>
+    <select name='line'>
+        <option value='<%=nil%>' <%='selected' if @quick_pick.rail_line_name == nil %>>No Rail-Line</option>
+        <%@trains.select{|train| train['STATION'] == @quick_pick.station_name}.collect{|train| train['LINE']}.uniq.sort.each do |line|%>
+        <option value='<%=line%>' <%='selected' if @quick_pick.rail_line_name == line %>> <%=line%> </option>
+        <%end%>
+    </select><br/>
+
+    <input type='submit' value='Edit'>
+</form>

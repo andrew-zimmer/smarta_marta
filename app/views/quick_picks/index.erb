@@ -4,7 +4,9 @@
 <%if @user.quick_picks == []%>
     <h3>You don't have any quick picks</h3>
 <%else%>
-
+    <% @user.quick_picks.each do |qp|%>
+        <h3> <a href="/quick_picks/<%=qp.id%>"><%=qp.station_name%></a> </h3>
+    <%end%>
 <%end%>
 
 <form method method='get' action='/quick_picks/new'>

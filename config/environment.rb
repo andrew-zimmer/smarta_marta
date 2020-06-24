@@ -5,9 +5,12 @@ require 'open-uri'
 require 'net/http'
 require 'json'
 require 'addressable/uri'
+require 'nokogiri'
 
 require 'bundler/setup'
 Bundler.require(:default, ENV['SINATRA_ENV'])
+
+require 'dotenv/load'
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",

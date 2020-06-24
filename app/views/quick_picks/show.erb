@@ -1,0 +1,25 @@
+<h1> <%=@quick_pick.station_name%> </h1>
+
+<form method='get' action='/quick_picks/<%=@quick_pick.id%>/edit'>
+    <input type='submit' value='Refine'>
+</form>
+<form method='get' action='/quick_picks/<%=@quick_pick.id%>/delete'>
+    <input type='submit' value='Delete'>
+</form>
+<form method='get' action='/quick_picks'>
+    <input type='submit' value='View All'>
+</form>
+
+
+<form>
+
+<%@trains.each do |station|%>
+<h2> Destination:<%=station['DESTINATION']%> </h2>
+<ul>
+    <li> Waiting Time: <%=station['WAITING_TIME']%> </li>
+    <li> Event Time: <%=station['EVENT_TIME']%> </li>
+    <li> Line: <%=station['LINE']%> </li>
+    <li> Direction: <%=station['DIRECTION']%> </li>
+</ul><br/>
+<%end%>
+</form>

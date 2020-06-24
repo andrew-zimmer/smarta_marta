@@ -3,7 +3,7 @@ class MartaAPIImporter
 
     def train_api_call
         #the url to receive train schedule information from
-        url = "http://developer.itsmarta.com/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals?apikey=233df857-73b8-4ecf-812b-e0bd443c9a86"
+        url = "http://developer.itsmarta.com/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals?apikey="+ENV['API_KEY']
 
         #store the url as a class object
         uri = URI.parse(url)
