@@ -1,21 +1,36 @@
 class UserController < ApplicationController
     get '/users/log_in' do
-        erb :'/users/log_in'
+        if logged_in?
+            redirect '/quick_picks'
+        else
+            erb :'/users/log_in'
+        end
+
     end
 
     post '/users/log_in' do
-        user = User.find_by_email(params[:email])
-        if user && user.authenticate(params[:password])
-        #check that their password was correct
-            session[:user_id] = user.id    # log them in
-            redirect to '/quick_picks'
+        if User.find_by_email(params[:email])
+            user = User.find_by_email(params[:email])
+            if user && user.authenticate(params[:password])
+            #check that their password was correct
+                session[:user_id] = user.id    # log them in
+                redirect to '/quick_picks'
+            else
+                redirect '/users/log_in'
+            end
         else
-            redirect '/log_in'
+            flash[:message] = 'Invalid Email Address'
+            redirect '/users/log_in'
         end
     end
 
     get '/users/sign_up' do
-        erb :'/users/sign_up'
+        if logged_in?
+            redirect '/quick_picks'
+        else
+            erb :'/users/sign_up'
+        end
+
     end
 
     post '/users/sign_up' do

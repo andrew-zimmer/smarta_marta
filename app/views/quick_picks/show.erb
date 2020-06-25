@@ -7,17 +7,23 @@
 <%end%>
 
 <form>
+<%if @trains == []%>
+    <h2>Doesn't look like you have any trains headed your way, right now.</h2>
+    <h2>Try again later</h2>
+<%else%>
 <%@trains.each do |station|%>
 
 <h2> Destination:<%=station['DESTINATION']%> </h2>
 <ul>
     <li> Waiting Time: <%=station['WAITING_TIME']%> </li>
-    <li> Event Time: <%=station['EVENT_TIME']%> </li>
+    <li> Last Update: <%=station['EVENT_TIME']%> </li>
     <li> Line: <%=station['LINE']%> </li>
     <li> Direction: <%=station['DIRECTION']%> </li>
 </ul><br/>
 <%end%>
+<%end%>
 </form>
+
 
 <form method='get' action='/quick_picks/<%=@quick_pick.id%>/edit'>
     <input type='submit' value='Edit'>

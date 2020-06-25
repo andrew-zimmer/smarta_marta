@@ -14,9 +14,42 @@
         <h4>Direction: <%=qp.direction.nil? ? 'Not Defined' : qp.direction%></h4>
         <h4>Rail-Line: <%=qp.rail_line_name.nil? ? 'Not Defined' : qp.rail_line_name%></h4>
         <br>
+
+        <%@train = @trains.select{|obj| obj['STATION'] == qp.station_name}%>
+        <%if qp.direction.nil? && qp.rail_line_name.nil?%>
+            <%true%>
+        <%elsif !qp.direction.nil? && !qp.rail_line_name.nil?%>
+            <%@train = @train.select{|obj| obj['DIRECTION'] == qp.direction}.select{|train| train['LINE'] == qp.rail_line_name}%>
+        <%elsif qp.direction%>
+            <%@train = @train.select{|obj| obj['DIRECTION'] == qp.direction}%>
+        <%elsif qp.rail_line_name%>
+            <%@train = @train.select{|obj| obj['LINE'] == qp.rail_line_name}%>
+        <%end%>
+
+        <%if @train == []%>
+            <h4>Next Arrival:</h4>
+            <p>Doesn't look like you have any trains headed your way, right now.</p>
+        <%else%>
+            <ul>
+
+                <h4>Next Arrival:</h4>
+                <li> Waiting Time: <%=@train[0]['WAITING_TIME']%></li>
+                <li> Last Update: <%=@train[0]['EVENT_TIME']%> </li>
+                <li> Line: <%=@train[0]['LINE']%> </li>
+                <li> Direction: <%=@train[0]['DIRECTION']%> </li>
+            </ul>
+        <%end%>
+        <form method='post' action='/quick_picks/<%=qp.id%>/delete'>
+            <input type='hidden' name='_method' value='delete'>
+            <input type='submit' value='Delete'>
+        </form>
+        <form method='get' action='/quick_picks/<%=qp.id%>/edit'>
+            <input type='submit' value='Edit'>
+        </form>
+        <br>
     <%end%>
 <%end%>
 
 <form method method='get' action='/quick_picks/new'>
-    <input type='submit' value='New Picks'>
+    <input type='submit' value='Create New'>
 </form>
