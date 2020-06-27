@@ -1,11 +1,11 @@
 
-<h1> Log In </h1>
+<h1 class='primary'> Log In </h1>
 <h2> <%=flash[:message]%> </h2>
 <form method="post" action='/users/log_in'>
     <input type='email' name='email' placeholder='Email' require>
     <input type='password'name='password' placeholder='password' require>
-    <input type='submit' value='Log In'>
+    <input type='submit' class='primary border border-primary' value='LOG IN'>
 </form>
 
 
-<h3>Not a member?<a href='/users/sign_up'>Sign Up Here</a></h3>
+<h3 class='primary'>Not a member? <a href='/users/sign_up'>Sign Up Here</a></h3>

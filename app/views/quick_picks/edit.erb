@@ -1,33 +1,56 @@
-<h1> <%=@quick_pick.station_name%> Quick Pick</h1>
-
-<form action="/quick_picks/<%=@quick_pick.id%>" method='POST' >
-    <h3>Quick Pick Name:</h3>
-    <%if @quick_pick.alias.nil? || @quick_pick.alias == ''%>
-        <input type="text" name='alias' placeholder='Quick! Pick... a name'>
-    <%else%>
-        <input type="text" name='alias' value='<%=@quick_pick.alias%>' placeholder='Pick a nickname for your quick pick'>
-    <%end%>
-    <input type='hidden' name='_method' value='patch'>
-    <h3>Direction</h3>
-    <select name='direction'>
-        <option value='<%=nil%>' <%='selected' if @quick_pick.direction == nil %>>No Direction</option>
-        <%@trains.select{|train| train['STATION'] == @quick_pick.station_name}.collect{|train| train['DIRECTION']}.uniq.sort.each do |dir|%>
-        <option value='<%=dir%>' <%='selected' if @quick_pick.direction == dir %>> <%=dir%> </option>
-        <%end%>
-    </select><br/>
-
-    <h3>Rail-Line</h3>
-    <select name='line'>
-        <option value='<%=nil%>' <%='selected' if @quick_pick.rail_line_name == nil %>>No Rail-Line</option>
-        <%@trains.select{|train| train['STATION'] == @quick_pick.station_name}.collect{|train| train['LINE']}.uniq.sort.each do |line|%>
-        <option value='<%=line%>' <%='selected' if @quick_pick.rail_line_name == line %>> <%=line%> </option>
-        <%end%>
-    </select><br/>
-
-    <input type='submit' value='Finish'>
-</form>
-
-<form method='post' action='/quick_picks/<%=@quick_pick.id%>/delete'>
-    <input type='hidden' name='_method' value='delete'>
-    <input type='submit' value='Delete'>
-</form>
+<h1 class='primary'> <%=current_quick_pick.station_name%> <br>Quick Pick</h1>
+<div class="container">
+    <div class="row">
+        <div class="card w-100">
+            <div class="card-body" id="cardBody">
+                <h3 class="card-title form-title primary" id="form-title">EDIT</h3>
+                <form id="thisForm" class="ui-sortable" action="/quick_picks/<%=current_quick_pick.id%>" method='POST'>
+                    <input type='hidden' name='_method' value='patch'>
+                    <div class="formInput">
+                        <span>
+                            <label for="emptyFormInput2" class="font-weight-light">Station Nickname</label>
+                            <div class="input-group mb-2">
+                                <%if current_quick_pick.alias.nil? || current_quick_pick.alias == ''%>
+                                    <input type="text" class="form-control" id="emptyFormInput2" name='alias' placeholder='Quick! Pick... a name'>
+                                <%else%>
+                                    <input type="text" class="form-control" id="emptyFormInput2" name='alias' value='<%=current_quick_pick.alias%>'>
+                                <%end%>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="formInput">
+                        <span>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect5" class="font-weight-light">DIRECTIONS</label>
+                                <select class="form-control" id="exampleFormControlSelect5" name='direction'>
+                                    <option value='<%=nil%>' <%='selected' if current_quick_pick.direction == nil %>>No Direction</option>
+                                    <%all_trains.select{|train| train['STATION'] == current_quick_pick.station_name}.collect{|train| train['DIRECTION']}.uniq.sort.each do |dir|%>
+                                        <option value='<%=dir%>' <%='selected' if current_quick_pick.direction == dir %>> <%=dir%> </option>
+                                    <%end%>
+                                </select>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="formInput">
+                        <span>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect6" class="font-weight-light">RAIL-LINES</label>
+                                <select class="form-control" id="exampleFormControlSelect6" name='line'>
+                                    <option value='<%=nil%>' <%='selected' if current_quick_pick.rail_line_name == nil %>>No Rail-Line</option>
+                                    <%all_trains.select{|train| train['STATION'] == current_quick_pick.station_name}.collect{|train| train['LINE']}.uniq.sort.each do |line|%>
+                                        <option value='<%=line%>' <%='selected' if current_quick_pick.rail_line_name == line %>> <%=line%> </option>
+                                    <%end%>
+                                </select>
+                            </div>
+                        </span>
+                    </div>
+                    <input type="submit" class="btn btn-outline-primary float-right primary" value='SUBMIT'>
+                </form>
+                <form class='float-left' method='post' action='/quick_picks/<%=current_quick_pick.id%>/delete'>
+                    <input type='hidden' name='_method' value='delete'>
+                    <input class='primary btn btn-outline-danger' type='submit' value='DELETE'>
+                </form>
+            </div><!--CARD BODY-->
+        </div><!--CARD DIV-->
+    </div><!--ROW END-->
+</div><!--CONTAINER END-->

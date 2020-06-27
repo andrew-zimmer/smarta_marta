@@ -9,15 +9,12 @@ class UserController < ApplicationController
     end
 
     post '/users/log_in' do
-        if User.find_by_email(params[:email])
-            user = User.find_by_email(params[:email])
-            if user && user.authenticate(params[:password])
-            #check that their password was correct
-                session[:user_id] = user.id    # log them in
-                redirect to '/quick_picks'
-            else
-                redirect '/users/log_in'
-            end
+
+        user = User.find_by_email(params[:email])
+        if user && user.authenticate(params[:password])
+        #check that their password was correct
+            session[:user_id] = user.id    # log them in
+            redirect to '/quick_picks'
         else
             flash[:message] = 'Invalid Email Address'
             redirect '/users/log_in'
@@ -34,6 +31,7 @@ class UserController < ApplicationController
     end
 
     post '/users/sign_up' do
+
         user = User.new(params) #create our user
         if user.save
             session[:user_id] = user.id    # log them in

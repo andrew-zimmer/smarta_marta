@@ -1,12 +1,40 @@
-<h1>Make a new quick pick</h1>
-<h2>based on current train information</h2>
+<h1 class='primary'>Make a new quick pick</h1>
+<h2>Based on current train information</h2>
 
-<form action='/quick_picks/new' method='post'>
-    <input type="text" name='alias' placeholder='Pick a nickname for your quick pick'>
-    <select name='station'>
-        <%@trains.collect{|train| train['STATION']}.uniq.sort.each do |station|%>
-            <option value='<%=station%>' name='<%=station%>'> <%=station%></option>
-        <%end%>
-    </select>
-    <input type='submit' value='NEXT'>
-</form>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card w-75 my-3 border border-primary">
+            <div class="card-body" id="cardBody">
+                <form id="thisForm" action='/quick_picks/new' method='post'>
+                    <div class="formInput">
+                        <span>
+                            <label for="emptyFormInput2" class="font-weight-light">Station Nickname</label>
+                            <div class="input-group mb-2">
+                                <input type="text" name='alias' class="form-control" id="emptyFormInput2">
+                            </div>
+                        </span>
+                    </div>
+
+                    <div class="formInput">
+                        <span>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect5" class="font-weight-light">Currently Available Stations</label>
+                                <input class="form-control" list='exampleFormControlSelect5' name='station'>
+                                <datalist id="exampleFormControlSelect5" name='station'>
+                                    <%all_trains.collect{|train| train['STATION']}.uniq.sort.each do |station|%>
+                                        <option value='<%=station%>' name='<%=station%>'> <%=station%></option>
+                                    <%end%>
+                                </datalist>
+                            </div>
+                        </span>
+                    </div>
+                    <input type="submit" class="btn btn-outline-primary float-right primary" value='NEXT'>
+                </form>
+                <form class='float-left' method='get' action='/quick_picks'>
+                    <input type='submit' class='primary btn btn-outline-primary' value='BACK'>
+                </form>
+            </div><!--CARD BODY-->
+        </div><!--CARD DIV-->
+    </div><!--ROW END-->
+</div><!--CONTAINER END-->

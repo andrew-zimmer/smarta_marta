@@ -1,12 +1,50 @@
-<h1>Sign Up</h1>
-<form action='/users/sign_up' method='post'>
-    <input type='text' name='first_name' placeholder='First Name' require>
-    <input type='text' name='last_name' placeholder='Last Name' require>
-    <input type='email' name='email' placeholder='Email' require>
-    <input type='password' name='password' placeholder='Password' require>
-    <input type='submit' value='Create Account'>
+<h1 class="primary">Sign Up</h1>
 
-</form>
 
 
 <h3>Already a member? <a href='/users/log_in'>Sign in here</a></h3>
+    <div class="container">
+        <div class="row">
+            <div class="card w-100 my-3">
+                <div class="card-body" id="cardBody">
+                    <h3 class="card-title form-title" id="form-title">Example Form</h3>
+                    <form id="thisForm" action='/users/sign_up' method='post'>
+                        <div class="formInput">
+                            <span>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="emptyFormInput1" class="font-weight-light">First Name:</label>
+                                        <div class="input-group mb-2">
+                                            <input type="text" class="form-control" name='first_name' id="emptyFormInput1" require>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <label for="emptyFormInput1" class="font-weight-light">Last Name:</label>
+                                        <div class="input-group mb-2">
+                                            <input type="text" name='last_name' class="form-control" id="emptyFormInput1" require>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="formInput">
+                            <span>
+                                <label for="emptyFormInput2" class="font-weight-light">Email:</label>
+                                <div class="input-group mb-2">
+                                    <input type="email" name='email' class="form-control" id="emptyFormInput2" require>
+                                </div>
+                                                                        </span>
+                        </div>
+                        <div class="formInput">
+                            <span>
+                                <label for="emptyFormInput3" class="font-weight-light">Password</label>
+                                <div class="input-group mb-2">
+                                    <input type="password" class="form-control" id="emptyFormInput3" name='password' require>
+                                </div>
+                                                                        </span>
+                        </div>
+                    <input type="submit" class="btn btn-outline-primary float-right" value='Create Account'></form>
+                </div><!--CARD BODY-->
+            </div><!--CARD DIV-->
+        </div><!--ROW END-->
+    </div><!--CONTAINER END-->

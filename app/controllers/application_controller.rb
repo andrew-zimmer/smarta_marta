@@ -10,7 +10,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, ENV['SESSION_SECRET']
     register Sinatra::Flash
 
-    set :show_exceptions, false
+    #set :show_exceptions, false
   end
 
   error 400...500 do
@@ -41,10 +41,6 @@ class ApplicationController < Sinatra::Base
 
       def current_user
         @current_user ||= User.find_by_id(session[:user_id])
-      end
-
-      def check_current_user_via_session_id
-        current_user.id == session[:user_id]
       end
 
       def compare_user_and_quick_pick_owner
@@ -126,11 +122,13 @@ class ApplicationController < Sinatra::Base
         else
             quick_pick.direction = params[:direction]
         end
+
         if params[:line] == ''
             quick_pick.rail_line_name = nil
         else
             quick_pick.rail_line_name = params[:line]
         end
+
         if params[:alias] == ''
             quick_pick.alias = nil
         else
@@ -158,9 +156,5 @@ class ApplicationController < Sinatra::Base
         end
         chronicle.save
       end
-
   end
-
-
-
 end

@@ -1,37 +1,42 @@
 
-<%if @quick_pick.alias.nil?%>
-    <h1> <%=@quick_pick.station_name%> </h1>
+<%if current_quick_pick.alias.nil?%>
+    <h1 class='text-uppercase primary'> <%=current_quick_pick.station_name%> </h1>
 <%else%>
-    <h1><%=@quick_pick.alias%></h1>
-    <h2> <%=@quick_pick.station_name%> </h2>
+    <h1 class='text-uppercase primary'><%=current_quick_pick.alias%></h1>
+    <h2 class='primary'> <%=current_quick_pick.station_name%> </h2>
 <%end%>
+<div class='container border border-primary'>
 
-<form>
-<%if @trains == []%>
-    <h2>Doesn't look like you have any trains headed your way, right now.</h2>
-    <h2>Try again later</h2>
-<%else%>
-<%@trains.each do |station|%>
+    <%if incoming_trains_based_on_direction_and_or_rail_line == []%>
+        <h3>Doesn't look like you have any trains headed your way, right now.</h3>
+        <h4>Try again later</h4>
+    <%else%>
+        <%incoming_trains_based_on_direction_and_or_rail_line.each do |station|%>
+            <div class='row'>
+                <div class='col-md-6 my-2'>
+                    <h2 class="primary bg bg-primary p-2 text-white "><span class='text-uppercase primary py-2'> Destination: </span> <br> <%=station['DESTINATION']%></h2>
+                    <h2 class="primary bg bg-dark p-2 text-white float-right"><span class='text-uppercase primary py-2'>Waiting Time: </span><%=station['WAITING_TIME']%></h2>
 
-<h2> Destination:<%=station['DESTINATION']%> </h2>
-<ul>
-    <li> Waiting Time: <%=station['WAITING_TIME']%> </li>
-    <li> Last Update: <%=station['EVENT_TIME']%> </li>
-    <li> Line: <%=station['LINE']%> </li>
-    <li> Direction: <%=station['DIRECTION']%> </li>
-</ul><br/>
-<%end%>
-<%end%>
-</form>
+                </div>
+                <div class="col-md-6 my-2">
+                    <p><span class='primary'>Last Updated: </span> <%=station['EVENT_TIME']%> </p>
+                    <p><span class='primary'>Line: </span> <%=station['LINE']%> </p>
+                    <p><span class='primary'>Direction: </span><%=station['DIRECTION']%> </p>
+                </div>
+            </div>
+            <hr>
+        <%end%>
+    <%end%>
 
+    <form class='py-2' method='get' action='/quick_picks/<%=current_quick_pick.id%>/edit'>
+        <input class='btn btn-primary btn-block w-100 primary' type='submit' value='EDIT'>
+    </form>
+    <form class='py-2' method='post' action='/quick_picks/<%=current_quick_pick.id%>/delete'>
+        <input type='hidden' name='_method' value='delete'>
+        <input class='btn btn-danger btn-block w-100 primary' type='submit' value='DELETE'>
+    </form>
+    <form class='py-2' method='get' action='/quick_picks'>
+        <input class='btn btn-primary border border-primary btn-block w-100 primary' type='submit' value='RETURN TO VIEW ALL'>
+    </form>
 
-<form method='get' action='/quick_picks/<%=@quick_pick.id%>/edit'>
-    <input type='submit' value='Edit'>
-</form>
-<form method='post' action='/quick_picks/<%=@quick_pick.id%>/delete'>
-    <input type='hidden' name='_method' value='delete'>
-    <input type='submit' value='Delete'>
-</form>
-<form method='get' action='/quick_picks'>
-    <input type='submit' value='View All'>
-</form>
+</div>
