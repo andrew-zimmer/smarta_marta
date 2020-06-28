@@ -1,7 +1,10 @@
-#footer {
-  position: absolute;
+/* .footer {
+  position: absolute !important;
   bottom: auto;
-}
+} */
+
+
+
 
 #title {
   font-family: 'Monoton', cursive;

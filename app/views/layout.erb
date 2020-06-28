@@ -16,28 +16,29 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
+  <div id='header'>
     <h1 class='display-1 text-center text-white bg-primary' id='title'>Smarta MARTA</h1>
-      <div>
-      <%if logged_in?%>
-        <div class='border border-primary p-2 primary alert alert-warning alert-dismissible fade show' role='alert'>
-          <h2>Hello, <%=current_user.first_name%></h2>
-          <p>Not you? <a href='/users/logout'> Log Out </a></p>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+
+        <%if logged_in?%>
+          <div class='border border-primary p-2 primary alert alert-warning alert-dismissible fade show' role='alert'>
+            <h2>Hello, <%=current_user.first_name%></h2>
+            <p>Not you? <a href='/users/logout'> Log Out </a></p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <%end%>
+
+
+        <div class="container d-flex flex-column min-vh-100">
+          <%= yield %>
         </div>
-      <%end%>
+
+            <footer  class="mt-auto footer container-fluid text-white bg-primary py-3 my-2">
+              <small class=''>&copy; 2020 <strong>SmartaMarta</strong></small>
+            </footer>
 
 
-      <div class="container">
-        <%= yield %>
-      </div>
-
-
-      <footer id='footer' class="container-fluid text-white bg-primary py-3 my-2">
-        <small class=''>&copy; 2020 <strong>SmartaMarta</strong></small>
-      </footer>
-    </div>
 
 
 
