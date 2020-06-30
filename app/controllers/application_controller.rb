@@ -138,23 +138,23 @@ class ApplicationController < Sinatra::Base
       end
 
       #-------User Chronicles----------------
-      def create_user_chronicle
-        if params.keys.any?{|key| key == 'station'}
-          chronicle = current_user.user_chronicles.build(station_name: params[:station])
-        else
-          chronicle = current_user.user_chronicles.build(station_name: current_quick_pick.station_name)
-        end
-        if params[:direction] == '' && params[:line] == ''
-            chronicle.direction = 'No direction'
-            chronicle.rail_line_name = 'No rail-line'
-        elsif params[:line] != '' && params[:direction] == ''
-            chronicle.direction = 'No direction'
-            chronicle.rail_line_name = params[:line]
-        elsif params[:line] == '' && params[:direction] != ''
-          chronicle.direction = params[:direction]
-          chronicle.rail_line_name = 'No rail-line'
-        end
-        chronicle.save
-      end
-  end
+  #     def create_user_chronicle
+  #       if params.keys.any?{|key| key == 'station'}
+  #         chronicle = current_user.user_chronicles.build(station_name: params[:station])
+  #       else
+  #         chronicle = current_user.user_chronicles.build(station_name: current_quick_pick.station_name)
+  #       end
+  #       if params[:direction] == '' && params[:line] == ''
+  #           chronicle.direction = 'No direction'
+  #           chronicle.rail_line_name = 'No rail-line'
+  #       elsif params[:line] != '' && params[:direction] == ''
+  #           chronicle.direction = 'No direction'
+  #           chronicle.rail_line_name = params[:line]
+  #       elsif params[:line] == '' && params[:direction] != ''
+  #         chronicle.direction = params[:direction]
+  #         chronicle.rail_line_name = 'No rail-line'
+  #       end
+  #       chronicle.save
+  #     end
+  # end
 end

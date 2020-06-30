@@ -21,7 +21,7 @@ class QuickPickController < ApplicationController
     post '/quick_picks/new' do
         if logged_in?
             if create_quick_pick
-                create_user_chronicle
+                # create_user_chronicle
                 redirect "/quick_picks/#{current_user.quick_picks[-1].id}/edit"
             else
                 redirect '/quick_picks'
@@ -63,7 +63,7 @@ class QuickPickController < ApplicationController
         if logged_in?
             if compare_user_and_quick_pick_owner && valid_direction_and_or_rail_line
                 update_quick_pick
-                create_user_chronicle
+                # create_user_chronicle
                 redirect "/quick_picks/#{params[:id]}"
             else
                 redirect '/quick_picks'
