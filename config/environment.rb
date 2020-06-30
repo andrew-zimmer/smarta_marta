@@ -1,12 +1,12 @@
 ENV['SINATRA_ENV'] ||= "development"
 
-require 'pry'
-require 'open-uri'
-require 'net/http'
-require 'json'
-require 'addressable/uri'
-require 'nokogiri'
-require 'sinatra/flash'
+# require 'pry'
+# require 'open-uri'
+# require 'net/http'
+# require 'json'
+# require 'addressable/uri'
+# require 'nokogiri'
+ require 'sinatra/flash'
 
 require 'bundler/setup'
 Bundler.require(:default, ENV['SINATRA_ENV'])
