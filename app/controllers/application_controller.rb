@@ -156,5 +156,5 @@ class ApplicationController < Sinatra::Base
   #       end
   #       chronicle.save
   #     end
-  # end
+   end
 end
