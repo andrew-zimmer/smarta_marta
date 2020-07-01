@@ -4,7 +4,7 @@ ENV['SINATRA_ENV'] ||= "development"
  require 'open-uri'
  require 'net/http'
  require 'json'
- require 'addressable/uri'
+ #require 'addressable/uri'
  require 'nokogiri'
  require 'sinatra/flash'
 
