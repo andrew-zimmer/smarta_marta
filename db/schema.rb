@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200625031952) do
+ActiveRecord::Schema.define(version: 20200622132933) do
 
   create_table "quick_picks", force: :cascade do |t|
     t.integer "user_id"
@@ -19,15 +19,6 @@ ActiveRecord::Schema.define(version: 20200625031952) do
     t.string  "rail_line_name"
     t.string  "direction"
     t.string  "alias"
-  end
-
-  create_table "user_chronicles", force: :cascade do |t|
-    t.string   "station_name"
-    t.string   "direction"
-    t.string   "rail_line_name"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|

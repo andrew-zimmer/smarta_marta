@@ -10,6 +10,7 @@ gem 'bcrypt'
 gem 'dotenv'
 gem 'sinatra-flash'
 gem 'foreman'
+gem 'nokogiri'
 
 group :development do
   gem 'sqlite3', '~> 1.3.6'

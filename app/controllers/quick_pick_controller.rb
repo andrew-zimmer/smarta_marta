@@ -1,10 +1,16 @@
 class QuickPickController < ApplicationController
     get '/quick_picks' do
-        if logged_in?
-            @trains = all_trains
-            erb :'/quick_picks/index'
+        binding.pry
+        if current_user
+            if logged_in?
+                @trains = all_trains
+                erb :'/quick_picks/index'
+            else
+                flash_message_log_in
+                redirect '/'
+            end
         else
-            flash_message_log_in
+            session.clear
             redirect '/'
         end
     end
