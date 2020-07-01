@@ -1,6 +1,6 @@
 class QuickPickController < ApplicationController
     get '/quick_picks' do
-        binding.pry
+
         if current_user
             if logged_in?
                 @trains = all_trains
