@@ -30,6 +30,6 @@ class QuickPick < ActiveRecord::Base
     end
 
     def alias_nil_or_empty_string?
-        self.alias.nil? || !!self.alias == ''
+        self.alias.nil? || self.alias != ''
     end
 end
