@@ -10,7 +10,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, ENV['SESSION_SECRET']
     register Sinatra::Flash
 
-    #set :show_exceptions, false
+    set :show_exceptions, false
   end
 
   error 400...500 do
@@ -43,118 +43,76 @@ class ApplicationController < Sinatra::Base
         @current_user ||= User.find_by_id(session[:user_id])
       end
 
-      def compare_user_and_quick_pick_owner
-        current_user == current_quick_pick.user
-      end
-
-      #--------------Flash Messages----------------------
-      def flash_message_log_in
-        flash[:message] = "Sign in, please"
-      end
-
       #--------------Marta API Methods--------------------
       def all_trains
-        MartaAPIImporter.new.train_api_call
+        @all_trains ||= MartaAPIImporter.new.train_api_call
       end
 
+
+
+      def all_unique_stations_from_all_trains
+        all_trains.collect{|train| train['STATION']}.uniq.sort
+      end
+
+      #array of train hashes that have the current station as a destination
       def array_from_station_name
           all_trains.select{|obj| obj['STATION'] == current_quick_pick.station_name}
       end
 
-      def valid_station_name?
-        all_trains.any? {|obj| obj['STATION'] == params[:station]}
+      #array of directions based on array given from array_from_station_name method
+      def collect_all_directions_for_current_station
+        array_from_station_name.collect{|train| train['DIRECTION']}.uniq.sort
       end
 
-      def valid_direction_and_or_rail_line
-        if params[:direction] == '' || params[:direction].nil?
-          true
-        else
-          if array_from_station_name.any?{|obj| obj['DIRECTION'] == params[:direction]}
-            true
-          else
-            return false
-          end
-        end
 
-        if params[:line] == '' || params[:direction].nil?
-          true
-        else
-          if array_from_station_name.any?{|obj| obj['LINE'] == params[:line]}
-            true
-          else
-            return false
-          end
-        end
-      end
 
       def incoming_trains_based_on_direction_and_or_rail_line
-        quick_pick = current_quick_pick
-        trains = array_from_station_name
-
-        if quick_pick.direction.nil? && quick_pick.rail_line_name.nil?
-            @trains = trains
-        elsif !quick_pick.direction.nil? && !quick_pick.rail_line_name.nil?
-            @trains = trains.select{|obj| obj['DIRECTION'] == quick_pick.direction}.select{|train| train['LINE'] == quick_pick.rail_line_name}
-        elsif quick_pick.direction
-            @trains = trains.select{|obj| obj['DIRECTION'] == quick_pick.direction}
-        elsif quick_pick.rail_line_name
-            @trains = trains.select{|obj| obj['LINE'] == quick_pick.rail_line_name}
-        end
+        @trains ||=
+          if current_quick_pick.direction.nil? && current_quick_pick.rail_line_name.nil?
+              array_from_station_name
+          elsif !current_quick_pick.direction.nil? && !current_quick_pick.rail_line_name.nil?
+              array_from_station_name.select{|obj| obj['DIRECTION'] == current_quick_pick.direction}.select{|train| train['LINE'] == current_quick_pick.rail_line_name}
+          elsif current_quick_pick.direction
+              array_from_station_name.select{|obj| obj['DIRECTION'] == current_quick_pick.direction}
+          elsif current_quick_pick.rail_line_name
+              array_from_station_name.select{|obj| obj['LINE'] == current_quick_pick.rail_line_name}
+          end
       end
 
       #----------Quick Pick methods-----------------
       def current_quick_pick
-        QuickPick.find(params[:id])
+        @current_quick_pick ||= QuickPick.find(params[:id])
       end
-
-      def create_quick_pick
-        if valid_station_name?
-          qp = current_user.quick_picks.create(station_name: params[:station], alias: params[:alias])
-        else
-          false
-        end
-      end
-
-      def update_quick_pick
-        quick_pick = current_quick_pick
-        if params[:direction] == ''
-            quick_pick.direction = nil
-        else
-            quick_pick.direction = params[:direction]
-        end
-
-        if params[:line] == ''
-            quick_pick.rail_line_name = nil
-        else
-            quick_pick.rail_line_name = params[:line]
-        end
-
-        if params[:alias] == ''
-            quick_pick.alias = nil
-        else
-            quick_pick.update(alias: params[:alias])
-        end
-        quick_pick.save
-      end
-
-      #-------User Chronicles----------------
-  #     def create_user_chronicle
-  #       if params.keys.any?{|key| key == 'station'}
-  #         chronicle = current_user.user_chronicles.build(station_name: params[:station])
-  #       else
-  #         chronicle = current_user.user_chronicles.build(station_name: current_quick_pick.station_name)
-  #       end
-  #       if params[:direction] == '' && params[:line] == ''
-  #           chronicle.direction = 'No direction'
-  #           chronicle.rail_line_name = 'No rail-line'
-  #       elsif params[:line] != '' && params[:direction] == ''
-  #           chronicle.direction = 'No direction'
-  #           chronicle.rail_line_name = params[:line]
-  #       elsif params[:line] == '' && params[:direction] != ''
-  #         chronicle.direction = params[:direction]
-  #         chronicle.rail_line_name = 'No rail-line'
-  #       end
-  #       chronicle.save
-  #     end
    end
+
+
+
+  private
+  def redirect_if_not_logged_in
+    if !logged_in?
+      flash[:message] = "You're not logged in!"
+
+      redirect to '/users/log_in'
+    end
+  end
+
+  def redirect_if_cant_create_quick_pick
+    if !create_quick_pick
+      flash[:message] = "Could not create quick pick."
+      redirect '/quick_picks'
+    end
+  end
+
+
+  def redirect_if_user_is_not_qp_owner
+    if !compare_user_and_quick_pick_owner
+      redirect '/quick_picks'
+    end
+  end
+
+  def redirect_has_invalid_direction_or_rail_line
+    if !valid_direction_and_or_rail_line
+      redirect '/quick_picks'
+    end
+  end
 end

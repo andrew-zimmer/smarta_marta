@@ -1,11 +1,7 @@
 class UserController < ApplicationController
     get '/users/log_in' do
-        if logged_in?
-            redirect '/quick_picks'
-        else
-            erb :'/users/log_in'
-        end
-
+        redirect_if_not_logged_in
+        redirect '/quick_picks'
     end
 
     post '/users/log_in' do
@@ -35,10 +31,8 @@ class UserController < ApplicationController
         user = User.new(params) #create our user
         if user.save
             session[:user_id] = user.id    # log them in
-
             redirect to '/quick_picks'
         else
-            @error = user.errors.full_messages.join("  -  ")
             erb :'users/sign_up'
         end
     end

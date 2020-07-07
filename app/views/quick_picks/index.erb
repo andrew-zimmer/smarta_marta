@@ -17,40 +17,28 @@
                 <% current_user.quick_picks.each do |qp|%>
                     <div class="row">
                         <div class='col-md-6'>
-                            <%if qp.alias.nil? || qp.alias == ''%>
+                            <%if qp.alias_nil_or_empty_string?%>
                                 <li><h2 class='primary'><a href="/quick_picks/<%=qp.id%>"><%=qp.station_name%></a></h2></li>
                             <%else%>
                                 <li><h2 class="text-uppercase primary"><a href="/quick_picks/<%=qp.id%>"><%=qp.alias%></a></h2></li>
                                 <h3>Station: <%=qp.station_name%> </h3>
                             <%end%>
-                            <h4>Direction: <%=qp.direction.nil? ? 'Not Defined' : qp.direction%></h4>
-                            <h4>Rail-Line: <%=qp.rail_line_name.nil? ? 'Not Defined' : qp.rail_line_name%></h4>
+                            <h4>Direction: <%=qp.train_direction %></h4>
+                            <h4>Rail-Line: <%=qp.train_line%></h4>
                             <br>
                         </div>
 
-                        <%train = all_trains.select{|obj| obj['STATION'] == qp.station_name}%>
-                        <%if qp.direction.nil? && qp.rail_line_name.nil?%>
-                            <%true%>
-                        <%elsif !qp.direction.nil? && !qp.rail_line_name.nil?%>
-                            <%train = train.select{|obj| obj['DIRECTION'] == qp.direction}.select{|train| train['LINE'] == qp.rail_line_name}%>
-                        <%elsif qp.direction%>
-                            <%train = train.select{|obj| obj['DIRECTION'] == qp.direction}%>
-                        <%elsif qp.rail_line_name%>
-                            <%train = train.select{|obj| obj['LINE'] == qp.rail_line_name}%>
-                        <%end%>
-
                         <div class='col-md-6'>
-                            <%if train == []%>
+                            <%if qp.trains(all_trains) == []%>
                                 <h4>Next Arrival:</h4>
                                 <p>Doesn't look like you have any trains headed your way, right now.</p>
                             <%else%>
                                 <ul>
-
                                     <h4 class='primary'>Next Arrival:</h4>
-                                    <li> Waiting Time: <%=train[0]['WAITING_TIME']%></li>
-                                    <li> Last Update: <%=train[0]['EVENT_TIME']%> </li>
-                                    <li> Line: <%=train[0]['LINE']%> </li>
-                                    <li> Direction: <%=train[0]['DIRECTION']%> </li>
+                                    <li> Waiting Time: <%=qp.trains(all_trains)[0]['WAITING_TIME']%></li>
+                                    <li> Last Update: <%=qp.trains(all_trains)[0]['EVENT_TIME']%> </li>
+                                    <li> Line: <%=qp.trains(all_trains)[0]['LINE']%> </li>
+                                    <li> Direction: <%=qp.trains(all_trains)[0]['DIRECTION']%> </li>
                                 </ul>
                             <%end%>
 

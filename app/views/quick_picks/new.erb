@@ -22,7 +22,7 @@
                                 <label for="exampleFormControlSelect5" class="font-weight-light">Currently Available Stations</label>
                                 <input class="form-control" list='exampleFormControlSelect5' name='station'>
                                 <datalist id="exampleFormControlSelect5" name='station'>
-                                    <%all_trains.collect{|train| train['STATION']}.uniq.sort.each do |station|%>
+                                    <% all_unique_stations_from_all_trains.each do |station|%>
                                         <option value='<%=station%>' name='<%=station%>'> <%=station%></option>
                                     <%end%>
                                 </datalist>

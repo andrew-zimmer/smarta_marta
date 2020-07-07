@@ -10,7 +10,7 @@
                         <span>
                             <label for="emptyFormInput2" class="font-weight-light">Station Nickname</label>
                             <div class="input-group mb-2">
-                                <%if current_quick_pick.alias.nil? || current_quick_pick.alias == ''%>
+                                <%if current_quick_pick.alias_nil_or_empty_string?%>
                                     <input type="text" class="form-control" id="emptyFormInput2" name='alias' placeholder='Quick! Pick... a name'>
                                 <%else%>
                                     <input type="text" class="form-control" id="emptyFormInput2" name='alias' value='<%=current_quick_pick.alias%>'>
@@ -24,7 +24,7 @@
                                 <label for="exampleFormControlSelect5" class="font-weight-light">DIRECTIONS</label>
                                 <select class="form-control" id="exampleFormControlSelect5" name='direction'>
                                     <option value='<%=nil%>' <%='selected' if current_quick_pick.direction == nil %>>No Direction</option>
-                                    <%all_trains.select{|train| train['STATION'] == current_quick_pick.station_name}.collect{|train| train['DIRECTION']}.uniq.sort.each do |dir|%>
+                                    <%collect_all_directions_for_current_station.each do |dir|%>
                                         <option value='<%=dir%>' <%='selected' if current_quick_pick.direction == dir %>> <%=dir%> </option>
                                     <%end%>
                                 </select>
